@@ -1,0 +1,12 @@
+AppBundle\Document\SIC:
+    type: document
+    fields:
+        id:
+            id:  true
+            strategy: AUTO
+        code:
+            type: string
+        office:
+            type: string
+        title:
+            type: string

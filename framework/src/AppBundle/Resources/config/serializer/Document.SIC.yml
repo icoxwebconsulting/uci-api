@@ -1,0 +1,9 @@
+AppBundle\Document\Customer:
+    exclusion_policy: NONE
+    relations:
+        -
+            rel: list_sics
+            href:
+                route: post_customers_confirm_customer_email
+                parameters:
+                    username: expr(object.getUsername())
