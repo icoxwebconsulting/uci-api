@@ -14,7 +14,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  *
  * @FOSRestBundleAnnotations\View()
  */
-class SICsController extends FOSRestController implements ClassResourceInterface
+class SicsController extends FOSRestController implements ClassResourceInterface
 {
     /**
      * Response with all sics
@@ -33,7 +33,7 @@ class SICsController extends FOSRestController implements ClassResourceInterface
      *  }
      * )
      */
-    public function getAllAction()
+    public function getAction()
     {
         return $this->get('uci.sic')->all();
     }

@@ -3,6 +3,6 @@ NelmioApiDocBundle:
     prefix:   /api/doc
 
 sic:
-    resource: AppBundle\Controller\SICsController
+    resource: AppBundle\Controller\SicsController
     prefix:   api/v1
     type:     rest

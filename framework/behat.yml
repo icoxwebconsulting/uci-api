@@ -4,11 +4,3 @@ default:
             contexts:
                 - FeatureContext:
                     baseUrl: http://localhost/app_dev.php/
-        local_prod:
-            contexts:
-                - FeatureContext:
-                    baseUrl: http://localhost/
-        ci:
-            contexts:
-                - FeatureContext:
-                    baseUrl: http://ci.uci.com/
