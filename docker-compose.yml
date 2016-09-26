@@ -2,3 +2,5 @@ version: '2'
 services:
   api:
       image: icox/uci-api
+  elastic:
+      image: elasticsearch

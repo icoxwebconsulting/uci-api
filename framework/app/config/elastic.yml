@@ -1,0 +1,49 @@
+fos_elastica:
+    clients:
+        default:
+            host: elastic
+            port: 9200
+    indexes:
+        uci:
+            index_name: uci
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            custom_analyzer :
+                                type     :    custom
+                                tokenizer:    nGram
+                                filter   :    [stopwords, asciifolding ,lowercase, snowball, worddelimiter]
+                            custom_search_analyzer :
+                                type     :    custom
+                                tokenizer:    standard
+                                filter   :    [stopwords, asciifolding ,lowercase, snowball, worddelimiter]
+                        tokenizer:
+                            nGram:
+                                type:     nGram
+                                min_gram: 2
+                                max_gram: 20
+                        filter:
+                            snowball:
+                                type:     snowball
+                                language: English
+                            stopwords:
+                                type:      stop
+                                stopwords: [_english_]
+                                ignore_case : true
+                            worddelimiter :
+                                type:      word_delimiter
+            types:
+                sic:
+                    mappings:
+                        id: { boost: 1, analyzer: custom_analyzer }
+                        code: { boost: 2, analyzer: custom_analyzer }
+                        office: { boost: 3, analyzer: custom_analyzer }
+                        title: { boost: 4, analyzer: custom_analyzer }
+                    persistence:
+                        driver: mongodb
+                        model: AppBundle\Document\SIC
+                        provider: ~
+                        listener:
+                            logger: true
+                        finder: ~

@@ -4,3 +4,8 @@ services:
       image: icox/symfony:php7-dev
       volumes:
         - .:/var/www
+  elastic:
+      expose:
+        - 5601
+        - 9200
+        - 9300

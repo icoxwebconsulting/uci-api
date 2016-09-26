@@ -169,7 +169,7 @@ $hasMinorProblems = (bool)count($minorProblems);
                     </button>
                 </div>
             </form>
-        </div>
+                </div>
     </div>
 
     <div class="sf-reset">
@@ -218,7 +218,7 @@ $hasMinorProblems = (bool)count($minorProblems);
                             To change settings, create a "<strong>php.ini</strong>".
                         <?php endif; ?>
                     </p>
-                <?php endif; ?>
+                        <?php endif; ?>
 
                 <?php if (!$hasMajorProblems && !$hasMinorProblems): ?>
                     <p class="ok">All checks passed successfully. Your system is ready to run Symfony applications.</p>
@@ -231,8 +231,8 @@ $hasMinorProblems = (bool)count($minorProblems);
                 </ul>
             </div>
         </div>
-    </div>
+            </div>
     <div class="version">Symfony Standard Edition</div>
-</div>
+        </div>
 </body>
 </html>
