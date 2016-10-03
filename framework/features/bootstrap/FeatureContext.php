@@ -91,9 +91,18 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     private function configDatabase()
     {
+        $config = Yaml::parse(file_get_contents('app/config/config_test.yml'));
+        $dbURI = $config["doctrine_mongodb"]["connections"]["default"]["server"];
+        $dbName = $config["doctrine_mongodb"]["default_database"];
         $config = Yaml::parse(file_get_contents('app/config/parameters.yml'));
-        $dbURI = $config["parameters"]["mongodb_server"];
-        $dbName = $config["parameters"]["mongodb_database"];
+        if (strpos($dbURI, '%') !== false) {
+            $dbURI = str_replace('%', '', $dbURI);
+            $dbURI = $config["parameters"][$dbURI];
+        }
+        if (strpos($dbName, '%') !== false) {
+            $dbName = str_replace('%', '', $dbName);
+            $dbName = $config["parameters"][$dbName];
+        }
         $this->dbClient = new MongoDB\Client($dbURI);
         $this->db = $this->dbClient->$dbName;
     }
@@ -417,6 +426,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
         // clean env entry point if there is any, workaround for dev env
         $actualValue = str_replace("/app_dev.php", "", $actualValue);
         $expectedValue = str_replace("/app_dev.php", "", $expectedValue);
+
+        // clean env entry point if there is any, workaround for test env
+        $actualValue = str_replace("/app_test.php", "", $actualValue);
+        $expectedValue = str_replace("/app_test.php", "", $expectedValue);
 
         // if there is any MONGO_ID present
         if (strpos($expectedValue, 'MONGO_ID') !== false) {

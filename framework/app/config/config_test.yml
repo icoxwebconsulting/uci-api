@@ -11,3 +11,14 @@ framework:
 web_profiler:
     toolbar: false
     intercept_redirects: false
+
+# Doctrine Configuration
+doctrine_mongodb:
+    connections:
+        default:
+            server: "%mongodb_server%"
+            options: {}
+    default_database: "uci_test"
+    document_managers:
+        default:
+            auto_mapping: true

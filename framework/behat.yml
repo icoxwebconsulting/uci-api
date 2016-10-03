@@ -1,6 +1,6 @@
 default:
     suites:
-        local_dev:
+        main:
             contexts:
                 - FeatureContext:
-                    baseUrl: http://localhost/app_dev.php/
+                    baseUrl: http://localhost/app_test.php/

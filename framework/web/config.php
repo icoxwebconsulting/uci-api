@@ -222,7 +222,7 @@ $hasMinorProblems = (bool)count($minorProblems);
 
                 <?php if (!$hasMajorProblems && !$hasMinorProblems): ?>
                     <p class="ok">All checks passed successfully. Your system is ready to run Symfony applications.</p>
-                <?php endif; ?>
+                        <?php endif; ?>
 
                 <ul class="symfony-install-continue">
                     <?php if ($hasMajorProblems || $hasMinorProblems): ?>

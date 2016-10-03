@@ -1,13 +1,13 @@
 <?php
 
-namespace SIC\SIC;
+namespace AppBundle\Document;
 
 /**
- * Interface SIC
+ * Interface Company
  *
- * @package SIC\SIC
+ * @package AppBundle\Document
  */
-interface SICInterface
+interface CompanyInterface
 {
     /**
      * @return string
