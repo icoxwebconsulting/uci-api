@@ -1,0 +1,10 @@
+AppBundle\Document\Company:
+    exclusion_policy: NONE
+    properties:
+        assignedSIC:
+            serialized_name: assigned_sic
+    relations:
+        -
+            rel: search
+            href:
+                route: get_companies_search

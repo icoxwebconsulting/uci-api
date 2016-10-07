@@ -7,7 +7,7 @@ namespace AppBundle\Document;
  *
  * @package AppBundle\Document
  */
-class Company
+class Company implements CompanyInterface
 {
     /**
      * @var string
@@ -55,7 +55,7 @@ class Company
     private $owner;
 
     /**
-     * @var
+     * @var GeoLocation
      */
     private $geoLocation;
 
@@ -123,7 +123,7 @@ class Company
     /**
      * @return string
      */
-    public function getId()
+    public function getId():string
     {
         return $this->id;
     }
@@ -142,5 +142,13 @@ class Company
     public function getGeoLocation():GeoLocation
     {
         return $this->geoLocation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCIK():string
+    {
+        return $this->cik;
     }
 }

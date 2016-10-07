@@ -8,13 +8,13 @@ use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
- * Class SicsController
+ * Class CompaniesController
  *
  * @package AppBundle\Controller
  *
  * @FOSRestBundleAnnotations\View()
  */
-class SicsController extends FOSRestController implements ClassResourceInterface
+class CompaniesController extends FOSRestController implements ClassResourceInterface
 {
     /**
      * Response with all sics
@@ -22,8 +22,8 @@ class SicsController extends FOSRestController implements ClassResourceInterface
      * @return array
      *
      * @ApiDoc(
-     *  section="SIC",
-     *  description="Response with all sics",
+     *  section="Company",
+     *  description="Search",
      *  statusCodes={
      *         200="Returned when successful"
      *  },
@@ -33,8 +33,8 @@ class SicsController extends FOSRestController implements ClassResourceInterface
      *  }
      * )
      */
-    public function getAction()
+    public function getSearchAction()
     {
-        return $this->get('uci.sic')->all();
+        return $this->get('uci.company')->search();
     }
 }

@@ -10,3 +10,8 @@ services:
         class: AppBundle\Services\SIC
         arguments:
             dm: '@doctrine_mongodb'
+
+    uci.company:
+        class: AppBundle\Services\Company
+        arguments:
+            dm: '@doctrine_mongodb'

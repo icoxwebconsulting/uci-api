@@ -1,0 +1,10 @@
+AppBundle\Document\Owner:
+    type: embeddedDocument
+    fields:
+        conformedName:
+            type: string
+        cik:
+            type: string
+    embedOne:
+        mailAddress:
+            targetDocument: Address

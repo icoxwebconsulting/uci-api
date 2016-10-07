@@ -1,0 +1,7 @@
+AppBundle\Document\GeoLocation:
+    type: embeddedDocument
+    fields:
+        latitude:
+            type: string
+        longitude:
+            type: string

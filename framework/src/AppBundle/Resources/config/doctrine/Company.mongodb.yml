@@ -1,0 +1,26 @@
+AppBundle\Document\Company:
+    type: document
+    fields:
+        id:
+            id:  true
+            strategy: AUTO
+        cik:
+            type: string
+        conformedName:
+            type: string
+        stateOfIncorporation:
+            type: string
+        fiscalEndYear:
+            type: string
+    embedOne:
+        businessAddress:
+            targetDocument: Address
+        mailAddress:
+            targetDocument: Address
+        owner:
+            targetDocument: Owner
+        geoLocation:
+            targetDocument: GeoLocation
+    referenceOne:
+        assignedSIC:
+            targetDocument: SIC

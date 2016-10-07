@@ -47,3 +47,59 @@ fos_elastica:
                         listener:
                             logger: true
                         finder: ~
+                company:
+                    mappings:
+                        id: { boost: 1, analyzer: custom_analyzer }
+                        cik: { boost: 2, analyzer: custom_analyzer }
+                        conformedName: { boost: 6, analyzer: custom_analyzer }
+                        assignedSIC:
+                            type: "nested"
+                            properties:
+                                id: { analyzer: custom_analyzer }
+                                code: { analyzer: custom_analyzer }
+                        stateOfIncorporation: { analyzer: custom_analyzer }
+                        fiscalEndYear: { analyzer: custom_analyzer }
+                        businessAddress:
+                            type: "nested"
+                            properties:
+                                street1: { analyzer: custom_analyzer }
+                                street2: { analyzer: custom_analyzer }
+                                city: { analyzer: custom_analyzer }
+                                state: { analyzer: custom_analyzer }
+                                zip: { analyzer: custom_analyzer }
+                                phone: { analyzer: custom_analyzer }
+                        mailAddress:
+                            type: "nested"
+                            properties:
+                                street1: { analyzer: custom_analyzer }
+                                street2: { analyzer: custom_analyzer }
+                                city: { analyzer: custom_analyzer }
+                                state: { analyzer: custom_analyzer }
+                                zip: { analyzer: custom_analyzer }
+                                phone: { analyzer: custom_analyzer }
+                        owner:
+                            type: "nested"
+                            properties:
+                                conformedName: { boost: 5, analyzer: custom_analyzer }
+                                cik: { analyzer: custom_analyzer }
+                                mailAddress:
+                                    type: "nested"
+                                    properties:
+                                        street1: { analyzer: custom_analyzer }
+                                        street2: { analyzer: custom_analyzer }
+                                        city: { analyzer: custom_analyzer }
+                                        state: { analyzer: custom_analyzer }
+                                        zip: { analyzer: custom_analyzer }
+                                        phone: { analyzer: custom_analyzer }
+                        geoLocation:
+                            type: "nested"
+                            properties:
+                                latitude: { analyzer: custom_analyzer }
+                                longitude: { analyzer: custom_analyzer }
+                    persistence:
+                        driver: mongodb
+                        model: AppBundle\Document\Company
+                        provider: ~
+                        listener:
+                            logger: true
+                        finder: ~
