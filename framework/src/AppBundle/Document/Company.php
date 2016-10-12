@@ -151,4 +151,15 @@ class Company implements CompanyInterface
     {
         return $this->cik;
     }
+
+    /**
+     * @return array
+     */
+    public function getGeoPoint():array
+    {
+        return array(
+            'lat' => $this->geoLocation->getLatitude(),
+            'lon' => $this->geoLocation->getLongitude(),
+        );
+    }
 }

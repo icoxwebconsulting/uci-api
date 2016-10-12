@@ -14,4 +14,4 @@ services:
     uci.company:
         class: AppBundle\Services\Company
         arguments:
-            dm: '@doctrine_mongodb'
+            finder: '@fos_elastica.finder.uci.company'

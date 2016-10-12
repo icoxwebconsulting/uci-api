@@ -6,6 +6,7 @@ fos_elastica:
     indexes:
         uci:
             index_name: uci
+            use_alias: true
             settings:
                 index:
                     analysis:
@@ -47,6 +48,8 @@ fos_elastica:
                         listener:
                             logger: true
                         finder: ~
+                        elastica_to_model_transformer:
+                            ignore_missing: true
                 company:
                     mappings:
                         id: { boost: 1, analyzer: custom_analyzer }
@@ -57,6 +60,7 @@ fos_elastica:
                             properties:
                                 id: { analyzer: custom_analyzer }
                                 code: { analyzer: custom_analyzer }
+                                title: { analyzer: custom_analyzer }
                         stateOfIncorporation: { analyzer: custom_analyzer }
                         fiscalEndYear: { analyzer: custom_analyzer }
                         businessAddress:
@@ -91,11 +95,8 @@ fos_elastica:
                                         state: { analyzer: custom_analyzer }
                                         zip: { analyzer: custom_analyzer }
                                         phone: { analyzer: custom_analyzer }
-                        geoLocation:
-                            type: "nested"
-                            properties:
-                                latitude: { analyzer: custom_analyzer }
-                                longitude: { analyzer: custom_analyzer }
+                        getGeoPoint:
+                            type: geo_point
                     persistence:
                         driver: mongodb
                         model: AppBundle\Document\Company
@@ -103,3 +104,5 @@ fos_elastica:
                         listener:
                             logger: true
                         finder: ~
+                        elastica_to_model_transformer:
+                            ignore_missing: true
