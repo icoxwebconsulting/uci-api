@@ -5,7 +5,8 @@ namespace AppBundle\Services;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\GeoDistanceRange;
 use Elastica\Query\Match;
-use Elastica\Query\Terms;
+use Elastica\Query\MatchAll;
+use Elastica\Query\Nested;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 /**
@@ -40,24 +41,33 @@ class Company
      */
     public function search($text, $geoLocation, $address):array
     {
-        $boolQuery = new BoolQuery();
+        $query = new BoolQuery();
 
         if ($text) {
             $idQuery = new Match();
             $idQuery->setFieldQuery('id', $text);
-            $boolQuery->addShould($idQuery);
-
-            $assignedSICCodeQuery = new Match();
-            $assignedSICCodeQuery->setFieldQuery('assignedSIC.code', $text);
-            $boolQuery->addShould($assignedSICCodeQuery);
-
-            $assignedSICTitleQuery = new Match();
-            $assignedSICTitleQuery->setFieldQuery('assignedSIC.title', $text);
-            $boolQuery->addShould($assignedSICTitleQuery);
+            $idQuery->setFieldParam('id', 'analyzer', 'custom_analyzer');
+            $query->addShould($idQuery);
 
             $conformedNameQuery = new Match();
             $conformedNameQuery->setFieldQuery('conformedName', $text);
-            $boolQuery->addShould($conformedNameQuery);
+            $query->addShould($conformedNameQuery);
+
+            $sicQuery = new Nested();
+            $sicQuery->setPath('assignedSIC');
+            $sicInnerBoolQuery = new BoolQuery();
+            $sicCodeMatchQuery = new Match();
+            $sicCodeMatchQuery->setField('assignedSIC.code', $text);
+            $sicInnerBoolQuery->addMust($sicCodeMatchQuery);
+            $sicTitleMatchQuery = new Match();
+            $sicTitleMatchQuery->setField('assignedSIC.title', $text);
+            $sicInnerBoolQuery->addMust($sicTitleMatchQuery);
+            $sicQuery->setQuery($sicInnerBoolQuery);
+            $query->addShould($sicQuery);
+        } else {
+            $all = new MatchAll();
+            $all->setParams(array('boost' => 1));
+            $query->addMust($all);
         }
 
         if ($geoLocation) {
@@ -69,29 +79,36 @@ class Company
                 GeoDistanceRange::RANGE_TO => $geoLocation['range'],
             );
             $geoLocationQuery = new GeoDistanceRange('getGeoPoint', $geoPoint, $range);
-            $boolQuery->addFilter($geoLocationQuery);
+            $query->addFilter($geoLocationQuery);
         }
 
         if ($address) {
+            $addressQuery = new Nested();
+            $addressQuery->setPath('businessAddress');
+            $addressInnerBoolQuery = new BoolQuery();
+
             if ($address['city']) {
-                $cityQuery = new Terms();
-                $cityQuery->setTerms('businessAddress.city', array($address['city']));
-                $boolQuery->addMust($cityQuery);
+                $cityQuery = new Match();
+                $cityQuery->setField('businessAddress.city_raw', $address['city']);
+                $addressInnerBoolQuery->addMust($cityQuery);
             }
 
             if ($address['state']) {
-                $stateQuery = new Terms();
-                $stateQuery->setTerms('businessAddress.state', array($address['state']));
-                $boolQuery->addFilter($stateQuery);
+                $stateQuery = new Match();
+                $stateQuery->setField('businessAddress.state_raw', $address['state']);
+                $addressInnerBoolQuery->addMust($stateQuery);
             }
 
             if ($address['zipCode']) {
-                $zipCodeQuery = new Terms();
-                $zipCodeQuery->setTerms('businessAddress.zip', array($address['zipCode']));
-                $boolQuery->addFilter($zipCodeQuery);
+                $zipQuery = new Match();
+                $zipQuery->setField('businessAddress.zip', $address['zipCode']);
+                $addressInnerBoolQuery->addMust($zipQuery);
             }
+
+            $addressQuery->setQuery($addressInnerBoolQuery);
+            $query->addFilter($addressQuery);
         }
 
-        return $this->finder->find($boolQuery);
+        return $this->finder->find($query);
     }
 }

@@ -60,9 +60,25 @@ class Address implements AddressInterface
     /**
      * @return string
      */
+    public function getCityRaw()
+    {
+        return $this->getCity();
+    }
+
+    /**
+     * @return string
+     */
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStateRaw()
+    {
+        return $this->getState();
     }
 
     /**
